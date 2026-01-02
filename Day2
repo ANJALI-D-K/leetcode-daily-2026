@@ -1,0 +1,95 @@
+961. N-Repeated Element in Size 2N Array
+Easy
+
+You are given an integer array nums with the following properties:
+
+nums.length == 2 * n.
+nums contains n + 1 unique elements.
+Exactly one element of nums is repeated n times.
+Return the element that is repeated n times
+
+Example 1:
+Input: nums = [1,2,3,3]
+Output: 3
+Example 2:
+Input: nums = [2,1,2,5,3,2]
+Output: 2
+Example 3:
+Input: nums = [5,1,5,2,5,3,5,4]
+Output: 5
+
+class Solution {
+    public int repeatedNTimes(int[] nums) {
+        int n = nums.length - 1;
+        if(nums[0] == nums[n]) return nums[0];
+        for(int i = 0; i < n; i++) {
+            if(nums[i] == nums[i + 1] || nums[i] == nums[i + 2]) return nums[i];
+        }
+        return nums[0];
+    }
+}
+
+Problem Understanding 
+Array size is 2N
+There are N+1 unique elements
+Exactly one element is repeated N times
+We must return that repeated element
+Example:
+[1,2,3,3] → 3
+[5,1,5,2,5,3,5,4] → 5
+
+Core Observation (Very Important)
+If one element appears N times in an array of size 2N,
+👉 it must appear next to itself or with at most one gap
+So the repeated element will satisfy:
+nums[i] == nums[i+1] OR
+nums[i] == nums[i+2]
+This avoids using HashMap or extra space.
+Code Explanation (Line by Line)
+class Solution {
+    public int repeatedNTimes(int[] nums) {
+
+
+➡ Function receives the array.
+
+int n = nums.length - 1;
+
+➡ Store last valid index.
+
+if (nums[0] == nums[n]) return nums[0];
+
+➡ Edge case check
+If first and last elements are same
+Then that element must be the repeated one
+
+✅ Example: [2,1,1,1,1,3,4,1]
+
+for (int i = 0; i < n; i++) {
+➡ Loop through array.
+
+if (nums[i] == nums[i + 1] || nums[i] == nums[i + 2])
+    return nums[i];
+➡ Check:
+Adjacent duplicate
+OR duplicate with one gap
+Once found, return immediately.
+
+return nums[0];
+➡ Fallback (problem guarantees one valid answer).
+
+Dry Run
+Example:
+nums = [5,1,5,2,5,3,5,4]
+Check:
+nums[0] == nums[1] ❌
+nums[0] == nums[2] ✅ → return 5
+
+Why This Solution Is Smart
+
+No HashMap
+
+No sorting
+
+O(n) time
+
+O(1) space
