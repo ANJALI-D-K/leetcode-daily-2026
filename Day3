@@ -1,0 +1,77 @@
+1411. Number of Ways to Paint N × 3 Grid
+Solved
+Hard
+Hint
+You have a grid of size n x 3 and you want to paint each cell of the grid with exactly one of the three colors: 
+Red, Yellow, or Green while making sure that no two adjacent cells have the same color (i.e., no two cells that share vertical or horizontal sides have the same color).
+Given n the number of rows of the grid, return the number of ways you can paint this grid. As the answer may grow large, the answer must be computed modulo 109 + 7
+
+Intuition
+Let's break down the problem step by step:
+
+What we need: Paint n×3 grid with 3 colors (Red, Yellow, Green) where no adjacent cells share same color
+Key observation 1: For any row, there are only 2 pattern types based on color distribution
+Pattern Type 1 (Alternating): Colors alternate - like RYR, YRY, GRG, RGR, YGY, GYG → 6 patterns
+Pattern Type 2 (All Different): All different colors - like RGB, RGY, YRG, YGR, GRY, GYR → 6 patterns
+Critical insight: Each pattern type can transition to next row in specific ways
+The trick: Track count of each pattern type, not individual patterns → saves space!
+Why only 2 types matter?
+
+Alternating patterns (6 total): first and last columns same, middle different (denoted as x)
+All different patterns (6 total): all three columns different (denoted as y)
+Both types have 6 variations each, total = 12 ways for first row
+Approach
+Breaking down the solution into clear steps:
+
+Step 1: Identify Pattern Types
+
+Type x (Alternating): 6 patterns (first and last column same)
+Type y (All Different): 6 patterns (all three columns different)
+First row: x = 6, y = 6
+Step 2: Find Transition Rules
+
+x (Alternating) → next row: Can form 3 Alternating + 2 All Different patterns
+y (All Different) → next row: Can form 2 Alternating + 2 All Different patterns
+Step 3: Dynamic Programming
+
+For each row from 2 to n:
+new_x = (3 × x + 2 × y) % MOD
+new_y = (2 × x + 2 × y) % MOD
+Update counts for next iteration
+Step 4: Calculate Final Answer
+
+Total ways = x + y
+Why this works:
+
+We only track pattern type counts, not individual patterns
+Transition rules are mathematically derived from valid color combinations
+DP builds answer row by row in O(n) time
+Algorithms Used
+Primary Technique: Dynamic Programming + Pattern Recognition
+
+Breakdown:
+
+Pattern Classification: Group 12 patterns into 2 types (x: Alternating and y: All Different)
+State Transition: Calculate next row possibilities from current row
+Space Optimization: Only track 2 variables instead of all 12 patterns
+Complexity
+Time complexity: O(n)
+
+Space complexity: O(1)
+
+Code
+class Solution {
+    public int numOfWays(int n) {
+        final int MOD = 1000000007;
+        long x = 6, y = 6;
+        
+        for (int i = 2; i <= n; i++) {
+            long new_x = (3 * x + 2 * y) % MOD;
+            long new_y = (2 * x + 2 * y) % MOD;
+            x = new_x;
+            y = new_y;
+        }
+        
+        return (int)((x + y) % MOD);
+    }
+}
