@@ -1,0 +1,68 @@
+1390. Four Divisors
+Hint
+Given an integer array nums, return the sum of divisors of the integers in that array that have exactly four divisors. 
+If there is no such integer in the array, return 0
+
+Intuition
+Looking at this problem, I need to find numbers with exactly 4 divisors and sum those divisors. Instead of checking all numbers up to n as divisors, I can optimize by only checking up to sqrt(n). For each divisor found, I also get its complement (n/divisor), effectively finding pairs of divisors. I need to be careful with perfect squares where divisor equals its complement.
+
+Approach
+I'm using optimized divisor counting with sqrt optimization:
+
+Initialize total sum to 0
+For each number in nums:
+Initialize divisor count and internal sum for this number
+Loop through potential divisors from 1 to sqrt(i):
+Check if divisor divides i evenly
+If yes, calculate the complementary divisor (other = i // divisor)
+If divisor equals other (perfect square case):
+Count as 1 divisor, add once to sum
+Otherwise:
+Count as 2 divisors (the pair), add both to sum
+If count exceeds 4, break early (optimization)
+If exactly 4 divisors found, add internal sum to total
+Return the accumulated total
+The sqrt optimization reduces the divisor checking from O(n) to O(sqrt(n)) per number.
+
+Complexity
+Time complexity: O(n⋅ 
+m
+​
+ )
+where n is the length of nums and m is the maximum value in nums. For each number, we check divisors up to its square root.
+
+Space complexity: O(1)
+We only use a few variables for counting and accumulating sums, regardless of input size.
+
+Code
+class Solution {
+    public int sumFourDivisors(int[] nums) {
+        int divSum = 0;
+
+        for (int n : nums) {
+            int divCount = 0, inSum = 0;
+
+            for (int d = 1; d * d <= n; d++) {
+                if (n % d == 0) {
+                    int other = n / d;
+
+                    if (d == other) {
+                        divCount++;
+                        inSum += d;
+                    } else {
+                        divCount += 2;
+                        inSum += d + other;
+                    }
+
+                    if (divCount > 4)
+                        break;
+                }
+            }
+
+            if (divCount == 4)
+                divSum += inSum;
+        }
+
+        return divSum;
+    }
+}
