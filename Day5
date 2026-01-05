@@ -1,0 +1,44 @@
+1975. Maximum Matrix Sum
+You are given an n x n integer matrix. You can do the following operation any number of times:
+
+Choose any two adjacent elements of matrix and multiply each of them by -1.
+Two elements are considered adjacent if and only if they share a border.
+
+Your goal is to maximize the summation of the matrix's elements. Return the maximum sum of the matrix's elements using the operation mentioned above
+Greedy algorithm.
+Since every operation makes the adjacent pair changing signs, it can make all values non-negative up to 1 exception, if there are odd number of negative numbers in total.
+
+Complexity
+Time complexity:
+O(N∗M)
+
+Space complexity:
+O(1)
+
+Code
+class Solution {
+    public long maxMatrixSum(int[][] matrix) {
+        int n = matrix.length;
+
+        int leastElement = 100001;
+        long sum = 0L;
+        int negativeCount = 0;
+
+        for(int[] rows : matrix ){
+            for(int value : rows){
+                if(value < 0){
+                    negativeCount++;
+                    value = -value;
+                }
+
+                sum += value;
+                if(value < leastElement){
+                    leastElement = value;
+                }
+                
+            }
+        }
+
+        return (negativeCount%2 == 0) ? sum : (sum - 2*leastElement);
+    }
+}
