@@ -48,8 +48,6 @@ This avoids using HashMap or extra space.
 Code Explanation (Line by Line)
 class Solution {
     public int repeatedNTimes(int[] nums) {
-
-
 ➡ Function receives the array.
 
 int n = nums.length - 1;
@@ -85,11 +83,7 @@ nums[0] == nums[1] ❌
 nums[0] == nums[2] ✅ → return 5
 
 Why This Solution Is Smart
-
 No HashMap
-
 No sorting
-
 O(n) time
-
 O(1) space
