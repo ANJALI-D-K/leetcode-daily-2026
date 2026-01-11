@@ -1,0 +1,35 @@
+Check if the Number is Armstrong
+
+You are given an integer n. You need to check whether it is an armstrong number or not. Return true if it is an armstrong number, otherwise return false.
+An armstrong number is a number which is equal to the sum of the digits of the number, raised to the power of the number of digits.
+
+Example 1
+
+Input: n = 153
+
+Output: true
+
+Explanation: Number of digits : 3.
+
+13 + 53 + 33 = 1 + 125 + 27 = 153.
+
+Therefore, it is an Armstrong number
+
+class Solution {
+    public boolean isArmstrong(int n) {
+      int og=n;
+      int sum=0;
+       while(og>0){
+        int ld=og%10;
+        sum=sum+(ld*ld*ld);
+        og/=10;
+       }
+      if(n==sum){
+        return true;
+      }
+      else
+      {
+        return false;
+      }
+    }
+}
