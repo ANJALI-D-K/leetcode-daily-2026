@@ -1,0 +1,31 @@
+class Solution {
+    public int secondLargestElement(int[] nums) {
+        //Brute Force
+      Arrays.sort(nums);
+      int largest=nums[nums.length-1];
+      for(int i=nums.length-2;i>0;i--){
+         if(nums[i]!=largest){
+             return nums[i];
+         }
+      }
+     return -1;
+..................................................................
+
+    //optimal approach
+
+    int largest=nums[0];
+    int slargest=-1;
+
+    for(int i=0;i<nums.length;i++){
+        if(nums[i]>largest){
+            largest=nums[i];
+        }
+    }
+     for(int i=0;i<nums.length;i++){
+        if(nums[i] != largest && nums[i]> slargest){
+            slargest=nums[i];
+        }
+    }
+    return slargest;
+    }
+}
